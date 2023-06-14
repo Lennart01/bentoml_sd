@@ -1,5 +1,7 @@
 api_server:
   http:
+    # The port for the HTTP server to listen on
+    port: 3000
     cors:  
       enabled: True
       access_control_allow_origins: ["*"]
