@@ -11,5 +11,5 @@ def txt2img(input_data):
     print(input_data)
     output = stable_diffusion_runner.run(**input_data)
     print(output)
-    images, _ = output
+    images = output[0]
     return images[0]
