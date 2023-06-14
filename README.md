@@ -1,10 +1,12 @@
-# Pip requirements
+# Simple BentoML StableDiffusion Demo
+I strongly recommend running the model download in tmux or screen, as it takes a while to download the models.
+## Pip requirements
 
 ```bash
 pip install -r requirements.txt
 ```
 
-# Run
+## Run
 
 Download models and import them into bentoml
 
