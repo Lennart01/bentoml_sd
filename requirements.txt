@@ -1,0 +1,7 @@
+bentoml 
+diffusers 
+transformers 
+accelerate 
+torch 
+fastapi
+starlette
