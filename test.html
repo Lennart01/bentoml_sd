@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stable Diffusion API Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #3e8e41;
+    }
+    .output {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .output img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      padding: 5px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Stable Diffusion API Demo</h1>
+  <label for="prompt">Prompt:</label>
+  <input type="text" id="prompt" placeholder="Enter a prompt...">
+  <label for="num-inference-steps">Number of Inference Steps:</label>
+  <input type="number" id="num-inference-steps" placeholder="Enter the number of inference steps..." value="30">
+  <label for="negative-prompt">Negative Prompt:</label>
+  <input type="text" id="negative-prompt" placeholder="Enter a negative prompt...">
+  <label for="guidance-scale">Guidance Scale:</label>
+  <input type="number" id="guidance-scale" placeholder="Enter the guidance scale..." value="7">
+
+  <button onclick="callAPI()">Generate Image</button>
+  <div class="output">
+    <img id="generated-image">
+  </div>
+  <script>
+  function callAPI() {
+    const prompt = document.getElementById("prompt").value;
+    const numInferenceSteps = parseInt(document.getElementById("num-inference-steps").value);
+    const negativePrompt = document.getElementById("negative-prompt").value;
+    const guidanceScale = parseInt(document.getElementById("guidance-scale").value) || 7; // add this line to get the guidance scale value, with a default of 7 if it is not provided
+
+    fetch("http://localhost:3000/txt2img", {
+      method: "POST",
+      body: JSON.stringify({ prompt, num_inference_steps: numInferenceSteps, negative_prompt: negativePrompt, guidance_scale: guidanceScale }), // add the guidance_scale parameter to the JSON payload
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "image/jpeg"
+      }
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = document.getElementById("generated-image");
+        image.src = reader.result;
+      };
+      reader.readAsDataURL(blob);
+    })
+    .catch(error => console.error(error));
+}
+
+  </script>
+</body>
+</html>
