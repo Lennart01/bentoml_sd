@@ -13,7 +13,7 @@ class InputSchema(BaseModel):
     num_inference_steps: int
     guidance_scale: float
 
-@svc.api(input=InputSchema, Output=Image)
+@svc.api(input=InputSchema, output=Image)
 def txt2img(input_data):
     print(input_data)
     output = stable_diffusion_runner.run(**input_data)
