@@ -13,7 +13,9 @@ class InputSchema(BaseModel):
     num_inference_steps: int
     guidance_scale: float
 
-@svc.api(input=InputSchema, output=Image)
+input_spec = JSON(pydantic_model=InputSchema)
+
+@svc.api(input=input_spec, output=Image())
 def txt2img(input_data):
     print(input_data)
     output = stable_diffusion_runner.run(**input_data)
